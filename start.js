@@ -3,16 +3,18 @@
 /**
  * Parameters for rendering
  */
-let mixfile     = 'deep_cut.mp3';
+let mixfile     = 'deep_60s.mp3';
 let background  = '2016-aug-deep.jpg';
 let datascript  = '2016-aug-deep.js';
-let duration    = 36000; // set max duration for 10 minutes (equal to audio length)
+let duration    = 3600; // set max duration for 1 minute (equal to audio length)
 
 let aepxfile  = 'nm05ae12.aepx';
 let audio     = 'mp3';
 
 /**
  * Settings for renderer
+ * DONT FORGET TO CHANGE aebinary ACCORDING TO YOUR SYSTEM
+ * On Windows might look like: 'C:\\Program Files\\Adobe\\After Effects CC\\aerender.exe'
  */
 const aebinary  = '/Applications/Adobe After Effects CC/aerender';
 const port      = 23234;
@@ -66,11 +68,16 @@ server.listen(port, () => {
 
     console.log('Started local static server at port:', port);
 
+    // addtional info about configuring project can be found at:
+    // https://github.com/Inlife/nexrender/wiki/Project-model
     let project = new Project({
         "template": "project.aepx",
         "composition": "main",
         "type": "default",
         "settings": {
+            // dont forget to setup the right output module; info:
+            // https://helpx.adobe.com/after-effects/using/basics-rendering-exporting.html#output_modules_and_output_module_settings
+            "outputModule": "h264",
             "startFrame": 0,
             "endFrame": duration
         },
