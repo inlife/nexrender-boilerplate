@@ -29,6 +29,7 @@ And Adobe After Effects (obviously).
 
 1. download or clone repo (`$ git clone https://github.com/Inlife/nexrender-boilerplate.git`)
 2. install dependencies (`$ npm install`)
-3. start rendering (`$ node start.js`)
-4. success ?
+3. configure `start.js` script; set path to your aerender binary
+4. start rendering (`$ node start.js`)
+5. success ?
 
