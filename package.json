@@ -23,6 +23,6 @@
   },
   "homepage": "https://github.com/Inlife/nexrender-boilerplate#readme",
   "dependencies": {
-    "nexrender": "^0.4.11"
+    "nexrender": "^0.4.12"
   }
 }
