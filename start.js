@@ -99,7 +99,7 @@ server.listen(port, () => {
         console.log('rendering finished');
     }).catch((err) => {
         // error
-        console.err(err);
+        console.error(err);
         server.close();
     });
 
