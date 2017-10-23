@@ -27,7 +27,7 @@ So if you saved a project in some folder `/Users/me/prj/`, the `aerender` binary
 You need to have `node.js` *>= 4* and `npm` installed.
 And Adobe After Effects (obviously).
 
-**Note:** dont forget to configure AE outputModule to your needs: [details](https://helpx.adobe.com/after-effects/using/basics-rendering-exporting.html#output_modules_and_output_module_settings). Usually i use h264 output codec and call the outputModule respectively. 
+**!Note: dont forget to configure AE outputModule to your needs: [details](https://helpx.adobe.com/after-effects/using/basics-rendering-exporting.html#output_modules_and_output_module_settings). Usually i use h264 output codec and call the outputModule respectively.**
 
 1. download or clone repo (`$ git clone https://github.com/Inlife/nexrender-boilerplate.git`)
 2. install dependencies (`$ npm install`)
