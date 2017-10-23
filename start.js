@@ -79,7 +79,8 @@ server.listen(port, () => {
             // https://helpx.adobe.com/after-effects/using/basics-rendering-exporting.html#output_modules_and_output_module_settings
             "outputModule": "h264",
             "startFrame": 0,
-            "endFrame": duration
+            "endFrame": duration,
+            "outputExt": "mp4"
         },
         "assets": [
             { "type": "project", "name": "project.aepx",    "src": `http://localhost:${port}/assets/${aepxfile}`}, 
