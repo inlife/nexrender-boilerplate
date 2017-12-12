@@ -76,7 +76,8 @@ server.listen(port, () => {
         "type": "default",
         "settings": {
             // dont forget to setup the right output module; info:
-            // The default outputModule for Windows users is "Lossless"
+            // The default outputModule for Windows users is "Lossless" & the default outputExt is "avi"
+            // You can create custom modules from Edit -> Templates -> Output Modules but the name and outputExt have to be in sync
             // Go to Composition -> Add Output Module to create customModule names
             // https://helpx.adobe.com/after-effects/using/basics-rendering-exporting.html#output_modules_and_output_module_settings
             "outputModule": "h264",
