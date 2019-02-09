@@ -1,6 +1,14 @@
 # nexrender-boilerplate
 Boilerplate project for rendering a video using nexrender.
 
+# IMPORTANT
+
+`nexrender` recently has been updated to a new major version. Currently this boilerplate project doesnt reflect that changes. It describes how to work with old ["stable"](https://github.com/inlife/nexrender/tree/stable) version of nexrender.
+
+I recommend working with a [new version of nexrender](https://github.com/inlife/nexrender), the README explains quite a lot and covers majority of the information shown in this repo too.
+
+# END OF IMPORTANT
+
 In case you are not familiar with **nexrender** i invite you to read more about at: https://github.com/Inlife/nexrender
 
 This example shows you how to use nexrender locally (without setting up whole network) as a tool for creating dynamic personalized videos. In this example I use a real template that I made for a YouTube video channel I manage: [Noxcaos Music](https://www.youtube.com/channel/UC2D9WSUKnyTX8wWqNVITTAw). (most of those videos are made using nexrender).
