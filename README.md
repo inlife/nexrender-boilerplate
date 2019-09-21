@@ -3,9 +3,9 @@ Boilerplate project for rendering a video using nexrender.
 
 # IMPORTANT
 
-`nexrender` recently has been updated to a new major version. Currently this boilerplate project doesnt reflect that changes. It describes how to work with old ["stable"](https://github.com/inlife/nexrender/tree/stable) version of nexrender.
+`nexrender` recently has been updated to a new major stable version. Currently this boilerplate project doesnt reflect that changes. It describes how to work with old ["archived"](https://github.com/inlife/nexrender/tree/stable) version of nexrender.
 
-I recommend working with a [new version of nexrender](https://github.com/inlife/nexrender), the README explains quite a lot and covers majority of the information shown in this repo too.
+I recommend working with a [new stable version of nexrender](https://github.com/inlife/nexrender), the README explains quite a lot and covers majority of the information shown in this repo too.
 
 # END OF IMPORTANT
 
