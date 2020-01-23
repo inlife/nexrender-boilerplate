@@ -69,8 +69,9 @@ server.listen(port, () => {
         type: "image",
         name: "background.jpg",
         layerName: "background.jpg",
-        src: `http://localhost:${port}/assets/${background}`,
-        // filters: [{name: "cover", params: [1280, 720]}],
+        src: `https://picsum.photos/1280/720`,
+        filters: [{name: "cover", params: [1280, 720]}],
+        extension: "jpg",
       },
       {
         type: "image",
@@ -88,8 +89,8 @@ server.listen(port, () => {
         type: "data",
         layerName: "artist",
         property: "position",
-        value: [0, 250],
-        expression: "[5*time,250]",
+        value: [0, duration],
+        expression: `[5*time, ${duration}]`,
       },
       {
         type: "data",
@@ -112,13 +113,17 @@ server.listen(port, () => {
         },
       ],
     },
+    onChange: (job, state) => console.log("testing onChange:", state),
+    onRenderProgress: (job, value) =>
+      console.log("testing onRenderProgress:", value),
   };
 
   const settings = {
+    logger: console,
     workpath: process.cwd() + "/temp",
     binary: aebinary,
-    debut: true,
-    skipCleanup: true,
+    debug: true,
+    skipCleanup: false,
   };
   // start rendering
   render(project, init(settings))
