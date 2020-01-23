@@ -4,7 +4,8 @@
   "description": "Boilerplate project for rendering a video using nexrender.",
   "main": "start.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon start.js"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,8 @@
   },
   "homepage": "https://github.com/Inlife/nexrender-boilerplate#readme",
   "dependencies": {
-    "nexrender": "^0.4.12"
+    "@nexrender/action-copy": "^1.8.16",
+    "@nexrender/action-encode": "^1.8.16",
+    "@nexrender/core": "^1.10.1"
   }
 }
