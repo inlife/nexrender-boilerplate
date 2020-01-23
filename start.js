@@ -1,110 +1,140 @@
-'use strict';
+"use strict";
+const http = require("http");
+const url = require("url");
+const path = require("path");
+const fs = require("fs");
+
+const {init, render} = require("@nexrender/core");
 
 /**
- * Parameters for rendering
+ *
  */
-let mixfile     = 'deep_60s.mp3';
-let background  = '2016-aug-deep.jpg';
-let datascript  = '2016-aug-deep.js';
-let duration    = 3600; // set max duration for 1 minute (equal to audio length)
+let mixfile = "deep_60s.mp3";
+let background = "2016-aug-deep.jpg";
+let datascript = "2016-aug-deep.js";
+let duration = 3600; // set max duration for 1 minute (equal to audio length)
 
-let aepxfile  = 'nm05ae12.aepx';
-let audio     = 'mp3';
+let aepxfile = "nm05ae12.aet";
+let audio = "mp3";
 
-/**
- * Settings for renderer
- * DONT FORGET TO CHANGE aebinary ACCORDING TO YOUR SYSTEM
- * On Windows might look like: 'C:\\Program Files\\Adobe\\After Effects CC\\aerender.exe'
- */
-const aebinary  = '/Applications/Adobe After Effects CC/aerender';
-const port      = 23234;
-
-/**
- * Dependencies
- */
-const http      = require('http');
-const url       = require('url');
-const path      = require('path');
-const fs        = require('fs');
-
-const Project   = require('nexrender').Project;
-const renderer  = require('nexrender').renderer;
+const aebinary = "/Applications/Adobe After Effects 2020/aerender";
+const port = 23234;
 
 /**
  * HTTP server
  */
 let server = http.createServer((req, res) => {
+  let uri = url.parse(req.url).pathname;
+  let filename = path.join(process.cwd(), uri);
 
-    let uri         = url.parse(req.url).pathname;
-    let filename    = path.join(process.cwd(), uri);
+  fs.exists(filename, exists => {
+    if (!exists) {
+      res.writeHead(404, {"Content-Type": "text/plain"});
+      res.write("404 Not Found\n");
+      return res.end();
+    }
 
-    fs.exists(filename, (exists) => {
-        if(!exists) {
-            res.writeHead(404, {"Content-Type": "text/plain"});
-            res.write("404 Not Found\n");
-            
-            return res.end();
-        }
+    fs.readFile(filename, "binary", function(err, file) {
+      if (err) {
+        res.writeHead(500, {"Content-Type": "text/plain"});
+        res.write(err + "\n");
+        return res.end();
+      }
 
-        fs.readFile(filename, "binary", function(err, file) {
-            if(err) {    
-                res.writeHead(500, {"Content-Type": "text/plain"});
-                res.write(err + "\n");
-                return res.end();
-            }
-
-            // send 200
-            res.writeHead(200);
-            res.write(file, "binary");
-            return res.end();
-        });
+      // send 200
+      res.writeHead(200);
+      res.write(file, "binary");
+      return res.end();
     });
+  });
 });
 
 /**
  * Renderer
  */
 server.listen(port, () => {
+  console.log("Started local static server at port:", port);
 
-    console.log('Started local static server at port:', port);
-
-    // addtional info about configuring project can be found at:
-    // https://github.com/Inlife/nexrender/wiki/Project-model
-    let project = new Project({
-        "template": "project.aepx",
-        "composition": "main",
-        "type": "default",
-        "settings": {
-            // dont forget to setup the right output module; info:
-            // The default outputModule for Windows users is "Lossless" & the default outputExt is "avi"
-            // You can create custom modules from Edit -> Templates -> Output Modules but the name and outputExt have to be in sync
-            // Go to Composition -> Add Output Module to create customModule names
-            // https://helpx.adobe.com/after-effects/using/basics-rendering-exporting.html#output_modules_and_output_module_settings
-            "outputModule": "h264",
-            "startFrame": 0,
-            "endFrame": duration,
-            "outputExt": "mp4"
+  // addtional info about configuring project can be found at:
+  // https://github.com/Inlife/nexrender/wiki/Project-model
+  let project = {
+    template: {
+      src: `http://localhost:${port}/assets/${aepxfile}`,
+      composition: "main",
+      frameStart: 0,
+      frameEnd: duration,
+    },
+    assets: [
+      {
+        type: "image",
+        name: "background.jpg",
+        layerName: "background.jpg",
+        src: `https://picsum.photos/1280/720`,
+        filters: [{name: "cover", params: [1280, 720]}],
+        extension: "jpg",
+      },
+      {
+        type: "image",
+        name: "nm.png",
+        layerName: "nm.png",
+        src: `http://localhost:${port}/assets/nm.png`,
+      },
+      {
+        type: "audio",
+        name: `audio.${audio}`,
+        layerName: `audio.${audio}`,
+        src: `http://localhost:${port}/assets/${mixfile}`,
+      },
+      {
+        type: "data",
+        layerName: "artist",
+        property: "position",
+        value: [0, duration],
+        expression: `[5*time, ${duration}]`,
+      },
+      {
+        type: "data",
+        layerName: "track name",
+        property: "Source Text",
+        value: "lorem",
+      },
+    ],
+    actions: {
+      postrender: [
+        {
+          module: "@nexrender/action-encode",
+          output: "output.mp4",
+          preset: "mp4",
         },
-        "assets": [
-            { "type": "project", "name": "project.aepx",    "src": `http://localhost:${port}/assets/${aepxfile}`}, 
-            { "type": "image",   "name": "background.jpg",  "src": `http://localhost:${port}/assets/${background}`, "filters": [ {"name":"cover", "params": [1280, 720] }] },
-            { "type": "image",   "name": "nm.png",          "src": `http://localhost:${port}/assets/nm.png` },
-            { "type": "audio",   "name": `audio.${audio}`,  "src": `http://localhost:${port}/assets/${mixfile}` },
-            { "type": "script",  "name": "data.js",         "src": `http://localhost:${port}/assets/${datascript}` }
-        ]
+        {
+          module: "@nexrender/action-copy",
+          input: "output.mp4",
+          output: process.cwd() + "/results/output.mp4",
+        },
+      ],
+    },
+    onChange: (job, state) => console.log("testing onChange:", state),
+    onRenderProgress: (job, value) =>
+      console.log("testing onRenderProgress:", value),
+  };
+
+  const settings = {
+    logger: console,
+    workpath: process.cwd() + "/temp",
+    binary: aebinary,
+    debug: true,
+    skipCleanup: false,
+  };
+  // start rendering
+  render(project, init(settings))
+    .then(() => {
+      // success
+      server.close();
+      console.log("rendering finished");
+    })
+    .catch(err => {
+      // error
+      console.error(err);
+      server.close();
     });
-
-    console.log(project);
-
-    // start rendering
-    renderer.render(aebinary, project).then(() => {
-        // success
-        server.close();
-        console.log('rendering finished');
-    }).catch((err) => {
-        // error
-        console.error(err);
-        server.close();
-    });
-
 });
