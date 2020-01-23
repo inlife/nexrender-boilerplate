@@ -5,8 +5,6 @@ const path = require("path");
 const fs = require("fs");
 
 const {init, render} = require("@nexrender/core");
-console.log("init", init);
-console.log("render", render);
 
 /**
  *
